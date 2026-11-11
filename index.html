@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071126">
+<title>Financial Report Indra Gusti HSB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#050d20;--sidebar:#071127;--panel:#0d1933;--panel2:#101e3d;--border:#2a416c;--text:#f4f7ff;--muted:#a7b8d8;--blue:#087cff;--cyan:#13e6d0;--green:#00d99a;--pink:#f45eb9;--orange:#ff9e19;--purple:#a45cff;--shadow:0 12px 30px #0004}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{background:radial-gradient(ellipse at 72% -12%,#143a9b 0,transparent 34%),radial-gradient(ellipse at 100% 60%,#061b51 0,transparent 30%),var(--bg);font-size:14px}
+button,input,select{font:inherit}
+button{cursor:pointer;color:inherit}
+.app{min-height:100vh;display:grid;grid-template-columns:268px minmax(0,1fr)}
+.sidebar{height:100vh;position:sticky;top:0;display:flex;flex-direction:column;gap:18px;padding:22px 15px 16px;background:linear-gradient(180deg,#071127,#061027);border-right:1px solid #30446d;overflow:auto}
+.brand{display:flex;align-items:center;gap:13px;padding:0 12px}
+.brand-mark{font-size:34px;color:#00e6a5;filter:drop-shadow(0 0 12px #00e6a5)}
+.brand strong{display:block;font-size:18px;letter-spacing:-.4px}.brand small{color:#bdcbe3;font-size:12px}
+.profile{text-align:center;padding:9px 8px 2px}
+.avatar{width:104px;height:104px;border-radius:50%;object-fit:cover;border:3px solid #2457a8;box-shadow:0 0 22px #087cff55}
+.profile h3{font-size:15px;margin:10px 0 6px}.profile p{font-size:12px;line-height:1.55;color:#c1cde3;margin:0}
+.nav{display:grid;gap:6px;margin-top:4px}
+.nav button{display:flex;align-items:center;gap:13px;border:0;background:transparent;color:#e0eaff;text-align:left;padding:12px 13px;border-radius:11px;font-size:13px}
+.nav button .ico{width:24px;text-align:center;font-size:20px;color:#b9c9e9}
+.nav button.active,.nav button:hover{background:linear-gradient(100deg,#075acb,#173b83);box-shadow:inset 3px 0 #13d8ff}
+.quote{margin-top:auto;border:1px solid #314a7a;border-radius:14px;min-height:175px;padding:20px 13px;text-align:center;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,#0c1d43,#142d5c);overflow:hidden}
+.quote p{font-style:italic;line-height:1.55;font-size:15px;margin:0}.quote small{color:#a9c4f5}
+.side-bottom{display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:#d7e4ff}.side-bottom input{accent-color:#087cff;width:38px;height:20px}
+.version{text-align:center;color:#8399bf;font-size:11px}
+.main{min-width:0}
+.topbar{height:77px;border-bottom:1px solid #23375f;display:flex;align-items:center;padding:0 24px;gap:18px;background:#08132acc;position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)}
+.search{height:46px;max-width:750px;flex:1;background:#111f43;border:1px solid #314b80;border-radius:28px;padding:0 18px;color:white;outline:none}
+.search:focus{border-color:#168cff;box-shadow:0 0 0 3px #087cff22}
+.top-actions{margin-left:auto;display:flex;gap:19px;align-items:center;font-size:21px;color:#d8e5ff}.top-actions button{border:0;background:transparent;font-size:21px}
+.content{width:100%;max-width:none;padding:18px 23px 28px;margin:0 auto}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.heading-left{display:flex;align-items:center;gap:15px;min-width:0}
+.heading h1{font-size:26px;margin:0;white-space:nowrap;letter-spacing:-.7px}.heading p{color:#d4e1f8;margin:0;font-size:13px}
+.date-pill{background:#111f40;border:1px solid #2a416f;border-radius:24px;padding:10px 14px;color:#eaf2ff;white-space:nowrap;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stat{height:144px;min-width:0;padding:16px 15px;background:linear-gradient(145deg,#101d3b,#0a152c);border:1px solid #31466f;border-radius:15px;box-shadow:var(--shadow);overflow:hidden}
+.stat-top{display:flex;align-items:center;gap:13px;min-width:0}.stat-icon{font-size:32px;flex:none}.stat label{display:block;color:#c7d5ef;font-size:12px;white-space:nowrap}.stat h2{font-size:22px;margin:5px 0 3px;letter-spacing:-.5px}.stat small{color:#b7c9e8;font-size:11px}.green{color:var(--green)!important}.pink{color:var(--pink)!important}.blue{color:#4e9dff!important}
+.spark-wrap{height:34px;width:100%;margin-top:6px;position:relative;overflow:hidden}.spark-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:34px!important;max-height:34px!important}
+.progress{height:12px;border-radius:20px;background:#26385e;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#00d99a,#20e6bf)}.progress.bluebar i{background:linear-gradient(90deg,#0868ed,#10c4ff)}
+.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(270px,.82fr);grid-template-rows:250px 170px 350px auto;gap:14px;margin-top:16px;align-items:stretch}
+.panel{background:linear-gradient(145deg,#101d3b,#0a152c);border:1px solid #31466f;border-radius:15px;box-shadow:var(--shadow);padding:14px;min-width:0;min-height:0;overflow:hidden}
+.panel-title{height:25px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;min-width:0}
+.panel-title h3{font-size:14px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.panel-title h3 .accent{color:var(--cyan);margin-right:8px;font-size:17px}
+.tabs{display:flex;gap:4px;flex:none}.tabs button{border:0;background:#172647;color:#c7d5ed;border-radius:20px;padding:6px 10px;font-size:10px}.tabs button.active{background:#087cff;color:white}
+.donut-panel{grid-column:1;grid-row:1}.donut-body{height:185px;display:flex;align-items:center;gap:17px;min-width:0}
+.donut-chart-wrap{width:44%;height:180px;max-width:220px;position:relative;flex:none;overflow:hidden}.donut-chart-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none;font-size:12px}.donut-center b{font-size:15px}
+.legend{display:grid;gap:12px;flex:1;min-width:0}.legend div{display:flex;align-items:center;gap:9px;font-size:12px;white-space:nowrap}.legend b{margin-left:auto}.dot{width:11px;height:11px;border-radius:3px;flex:none}
+.weekly-panel{grid-column:2;grid-row:1}.weekly-chart-wrap{height:190px;position:relative;overflow:hidden}.weekly-chart-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important}
+.calendar-panel{grid-column:3;grid-row:1 / span 2}.calendar-nav{display:flex;align-items:center;justify-content:space-between;margin:4px 0 9px}.calendar-nav button{border:0;background:transparent;font-size:20px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px}.calendar div{padding:7px 1px;border-radius:20px}.calendar .weekday{color:#c2d1ea}.calendar .day{color:#b9c9e5}.calendar .today{background:#087cff;color:white;font-weight:700}.calendar .day,.calendar .marked,.calendar .today{cursor:pointer;transition:.15s}.calendar .day:hover,.calendar .marked:hover,.calendar .today:hover{background:#1d4e91;color:#fff}.calendar .selected{outline:2px solid #13e6d0;background:#124b70;color:#fff!important}.calendar .marked:after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:#00e2b0;margin:3px auto 0}
+.warning{grid-column:1;grid-row:2;background:linear-gradient(100deg,#40210e,#271b20);border-color:#8b4a19;padding:12px 15px}.warning .panel-title{margin-bottom:4px}.warning strong{color:#ffb02e;font-size:12px}.warning p{line-height:1.35;margin:5px 0;font-size:11px;color:#e3d4c6}.warning .progress{margin-top:8px;background:#65432b;height:10px}.warning .progress i{background:#ff9b1b}
+.form-panel{grid-column:2;grid-row:2 / span 2}.upload{height:96px;border:1px dashed #168cff;border-radius:11px;padding:13px;text-align:center;background:#0c1b3a;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;margin-bottom:10px;font-size:12px}.upload strong{margin-top:4px}.upload small{color:var(--muted);font-size:10px;margin-top:3px}.upload input{display:none}.field{display:grid;gap:6px;margin:9px 0}.field label{color:#dce8ff;font-size:11px}.field input,.field select{background:#142343;border:1px solid #30466e;color:white;border-radius:9px;padding:10px;min-width:0;width:100%;height:37px;font-size:12px}.primary{width:100%;border:0;border-radius:10px;padding:12px;background:linear-gradient(90deg,#087cff,#0863df);font-weight:700;margin-top:5px;font-size:12px}
+.transactions-panel{grid-column:1;grid-row:3}.transactions{display:grid;gap:0;max-height:190px;overflow-y:auto;padding-right:5px;scrollbar-width:thin;scrollbar-color:#31578e transparent}.transaction{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #1c2d4e;min-width:0}.food{width:39px;height:39px;border-radius:10px;background:#1b3157;display:grid;place-items:center;font-size:21px;flex:none}.transaction-info{flex:1;min-width:0}.transaction-info b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.transaction-info small{color:var(--muted);font-size:10px}.tag{font-size:10px;padding:5px 9px;border-radius:20px;background:#087e61;white-space:nowrap}.amount{color:#ff6b8c;font-weight:700;font-size:11px;white-space:nowrap}
+.right-stack{grid-column:3;grid-row:3;display:grid;grid-template-rows:1.35fr .8fr;gap:14px;min-height:0}
+.saving-panel{min-height:185px}.saving-row{display:flex;align-items:center;gap:13px;min-height:92px}.saving-row p{overflow-wrap:anywhere}.ring{width:96px;height:96px}.ring{width:83px;height:83px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#14e0be 0 35%,#087cff 35% 100%);position:relative;flex:none}.ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:#101d3b}.ring b{position:relative;font-size:17px}.saving-row strong{font-size:14px}.saving-row p{font-size:10px;line-height:1.5;color:var(--muted);margin:5px 0}.saving-panel .primary{margin-top:10px;padding:10px}.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tools button{border:1px solid #31466f;border-radius:9px;background:#142343;padding:9px 3px;font-size:9px}.tools button span{display:block;font-size:20px;margin-bottom:4px}
+.compare-panel{grid-column:1 / -1;grid-row:4;min-height:300px}.compare-chart-wrap{height:235px;position:relative}.compare-chart-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important}.filter-select{background:#142343;border:1px solid #30466e;color:white;border-radius:9px;padding:7px 9px;font-size:10px;max-width:130px}.calendar-filter-note{font-size:10px;color:var(--cyan);margin-top:8px;min-height:14px}.link{color:#13d6ff;text-decoration:none;font-size:11px;white-space:nowrap}.hidden{display:none!important}
+.light{--bg:#eaf0fb;--text:#10203d;--muted:#526785;background:#eaf0fb;color:#10203d}.light .sidebar,.light .topbar{background:#f5f8ff}.light .panel,.light .stat{background:#fff;color:#10203d}.light .field input,.light .field select,.light .search{background:#edf3ff;color:#10203d}.light .nav button{color:#10203d}
+@media(max-width:1250px){.app{grid-template-columns:225px minmax(0,1fr)}.content{padding:16px}.dashboard-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);grid-template-rows:240px 170px 280px 230px auto}.donut-panel{grid-column:1;grid-row:1}.weekly-panel{grid-column:2;grid-row:1}.calendar-panel{grid-column:2;grid-row:2}.warning{grid-column:1;grid-row:2}.form-panel{grid-column:2;grid-row:3 / span 2}.transactions-panel{grid-column:1;grid-row:3}.right-stack{grid-column:1;grid-row:4}.compare-panel{grid-column:1 / -1;grid-row:5}.stats{gap:10px}.stat{padding:13px}.stat h2{font-size:19px}}
+@media(max-width:800px){.app{display:block}.sidebar{display:none}.topbar{height:62px;padding:0 12px}.content{padding:14px 12px}.heading{align-items:flex-start;flex-direction:column}.heading h1{font-size:22px}.heading-left{align-items:flex-start;flex-direction:column;gap:5px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{height:132px;padding:11px}.stat h2{font-size:17px}.stat-icon{font-size:26px}.stat label{font-size:10px}.dashboard-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:11px}.donut-panel,.weekly-panel,.calendar-panel,.warning,.form-panel,.transactions-panel,.right-stack,.compare-panel{grid-column:1;grid-row:auto}.donut-panel{height:245px}.weekly-panel{height:245px}.calendar-panel{height:260px}.warning{height:140px}.form-panel{height:auto;min-height:470px}.transactions-panel{height:300px}.compare-panel{height:330px}.right-stack{grid-template-columns:1fr 1fr;grid-template-rows:190px;gap:10px}.top-actions{gap:8px}.search{font-size:11px}.quote{display:none}}
+@media(max-width:460px){.stats{grid-template-columns:1fr}.stat{height:125px}.right-stack{grid-template-columns:1fr;grid-template-rows:190px 170px}.donut-body{gap:7px}.donut-chart-wrap{width:45%}.legend{gap:9px}.legend div{font-size:10px}}
+@media print{.sidebar,.topbar,.form-panel,.right-stack{display:none!important}.app{display:block}.content{padding:0}.panel,.stat{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+ <div class="brand"><span class="brand-mark">▣</span><div><strong>Financial Report</strong><small>Indra Gusti HSB</small></div></div>
+ <div class="profile"><img class="avatar" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300&h=300&fit=crop" alt="Profile"><h3>Indra Gusti HSB</h3><p>Manage Your Money,<br>Build a Better Tomorrow</p></div>
+ <nav class="nav">
+  <button class="active" data-view="dashboard"><span class="ico">⌂</span>Dashboard</button>
+  <button data-view="transactions"><span class="ico">▣</span>Transaksi</button>
+  <button data-view="calendar"><span class="ico">▦</span>Kalender</button>
+  <button data-view="target"><span class="ico">♧</span>Target Tabungan</button>
+  <button data-view="analysis"><span class="ico">▥</span>Analisis</button>
+  <button data-view="settings"><span class="ico">⚙</span>Pengaturan</button>
+  <button id="backupNav"><span class="ico">☁</span>Backup & Restore</button>
+  <button id="exportNav"><span class="ico">⇩</span>Ekspor Data</button>
+ </nav>
+ <div class="quote"><p>“Hidup lebih tenang dengan keuangan yang terencana.”</p><small>Rencanakan hari ini, nikmati esok.</small></div>
+ <div class="side-bottom"><span>🌙 Dark Mode</span><input id="themeToggle" type="checkbox" checked></div>
+ <div class="version">v1.0.0</div>
+</aside>
+<main class="main">
+ <header class="topbar"><input class="search" id="search" placeholder="⌕  Cari transaksi... (Ctrl + K)"><div class="top-actions"><button title="Notifikasi">♟</button><button title="Pengaturan">⚙</button><button id="themeQuick" title="Ganti tema">☼</button></div></header>
+ <div class="content">
+  <div class="heading"><div class="heading-left"><h1>▥ Dashboard</h1><p>Selamat datang kembali, Indra Gusti HSB! 👋</p></div><div class="date-pill" id="todayLabel">▦ Hari ini</div></div>
+  <section class="stats">
+   <article class="stat"><div class="stat-top"><span class="stat-icon green">▣</span><div><label>Total Pengeluaran Bulan Ini</label><h2 id="spent">Rp1.250.000</h2><small class="green">↓ 12% dari bulan lalu</small></div></div><div class="spark-wrap"><canvas id="spark1"></canvas></div></article>
+   <article class="stat"><div class="stat-top"><span class="stat-icon pink">🐷</span><div><label>Sisa Anggaran Bulanan</label><h2 id="remaining">Rp750.000</h2><small>dari <span id="budgetLabel">Rp2.000.000</span></small></div></div><div class="progress"><i id="budgetProgress" style="width:62.5%"></i></div><small id="budgetPct">62.5%</small></article>
+   <article class="stat"><div class="stat-top"><span class="stat-icon blue">🎯</span><div><label>Target Tabungan</label><h2 id="goalAmount">Rp1.000.000</h2><small>Terkumpul <b id="savedAmount">Rp350.000</b></small></div></div><div class="progress bluebar"><i id="goalProgress" style="width:35%"></i></div><small id="goalPct">35%</small></article>
+   <article class="stat"><div class="stat-top"><span class="stat-icon" style="color:#8b7cff">▦</span><div><label>Rata-rata Harian</label><h2 id="dailyAvg">Rp41.667</h2><small class="green">↑ 8%</small></div></div><div class="spark-wrap"><canvas id="spark2"></canvas></div></article>
+  </section>
+  <section class="dashboard-grid">
+   <article class="panel donut-panel"><div class="panel-title"><h3><span class="accent">▥</span>Grafik Pengeluaran</h3><div class="tabs"><button>Harian</button><button>Mingguan</button><button class="active">Bulanan</button></div></div><div class="donut-body"><div class="donut-chart-wrap"><canvas id="donutChart"></canvas><div class="donut-center"><b id="donutTotal">Rp1.250.000</b><span>Total</span></div></div><div class="legend" id="legend"></div></div></article>
+   <article class="panel weekly-panel"><div class="panel-title"><h3><span class="accent">▥</span>Pengeluaran per Minggu</h3></div><div class="weekly-chart-wrap"><canvas id="weeklyChart"></canvas></div></article>
+   <article class="panel calendar-panel"><div class="panel-title"><h3><span class="accent">▦</span>Kalender Keuangan</h3></div><div class="calendar-nav"><button id="prevMonth">‹</button><b id="monthName">Bulan</b><button id="nextMonth">›</button></div><div class="calendar" id="calendar"></div><div class="calendar-filter-note" id="calendarFilterNote">Klik tanggal untuk melihat transaksi pada tanggal tersebut.</div></article>
+   <article class="panel warning"><div class="panel-title"><h3>⚠️ Peringatan Anggaran</h3><a class="link" href="#budget">Lihat Detail →</a></div><strong id="warningText">Pengeluaran bulan ini sudah mencapai 62.5% dari anggaran!</strong><p>Ayo lebih bijak dalam mengatur pengeluaran.</p><div class="progress"><i id="warningProgress" style="width:62.5%"></i></div></article>
+   <article class="panel form-panel"><div class="panel-title"><h3><span class="accent">ϟ</span>Tambah Pengeluaran</h3></div><label class="upload">📤<strong>Upload Bukti Transaksi</strong><small>Klik untuk pilih foto atau drag & drop</small><input type="file" id="receipt" accept="image/*"></label><small id="receiptName" style="color:var(--muted)"></small><form id="transactionForm"><div class="field"><label>Tanggal Pengeluaran</label><input id="expenseDate" type="date" required></div><div class="field"><label>Jenis Pengeluaran</label><select id="category"><option>Makan & Minum</option><option>Transportasi</option><option>Kebutuhan Kos</option><option>Hiburan</option><option>Lainnya</option></select></div><div class="field"><label>Jumlah (Rp)</label><input id="amount" type="number" min="1" placeholder="Contoh: 25000" required></div><div class="field"><label>Keterangan (Opsional)</label><input id="note" placeholder="Contoh: Makan siang"></div><button class="primary">▣ Simpan Transaksi</button></form></article>
+   <article class="panel transactions-panel"><div class="panel-title"><h3><span class="accent">▣</span>Transaksi Pengeluaran</h3><select id="transactionPeriod" class="filter-select" aria-label="Filter transaksi"><option value="all">Semua</option><option value="daily">Harian</option><option value="weekly">Mingguan</option><option value="monthly">Bulanan</option></select><a class="link" href="#" id="allTransactions">Reset →</a></div><div class="transactions" id="transactionList"></div></article>
+   <article class="panel compare-panel"><div class="panel-title"><h3><span class="accent">⇄</span>Grafik Perbandingan Pengeluaran</h3><div class="tabs" id="compareTabs"><button data-period="daily" class="active">Harian</button><button data-period="weekly">Mingguan</button><button data-period="monthly">Bulanan</button></div></div><div class="compare-chart-wrap"><canvas id="compareChart"></canvas></div></article>
+   <div class="right-stack">
+    <article class="panel saving-panel"><div class="panel-title"><h3><span class="accent">♧</span>Target Tabungan</h3>🐷</div><div class="saving-row"><div class="ring" id="savingRing"><b id="savingRingPct">35%</b></div><div><strong id="savingLabel">Rp350.000</strong><p>terkumpul dari <span id="savingTargetLabel">Rp1.000.000</span></p></div></div><button class="primary" id="editGoal">Atur Target →</button></article>
+    <article class="panel"><div class="panel-title"><h3><span class="accent">⇩</span>Ekspor & Backup Data</h3></div><div class="tools"><button id="csvBtn"><span>📗</span>Export Excel</button><button id="printBtn"><span>📕</span>Export PDF</button><button id="backupBtn"><span>☁️</span>Backup Data</button><button id="restoreBtn"><span>♻️</span>Restore Data</button></div><input type="file" id="restoreFile" accept="application/json" hidden></article>
+   </div>
+  </section>
+ </div>
+</main>
+</div>
+<script>
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const money=n=>'Rp'+Number(n||0).toLocaleString('id-ID');
+const categories=['Makan & Minum','Transportasi','Kebutuhan Kos','Hiburan','Lainnya'];
+const colors=['#00d99a','#268cff','#ff9e19','#a45cff','#f45eb9'];
+const today=new Date();
+const initial=[
+ {id:1,date:new Date(today.getFullYear(),today.getMonth(),today.getDate(),12,30).toISOString(),category:'Makan & Minum',amount:25000,note:'Makan di Warung'},
+ {id:2,date:new Date(today.getFullYear(),today.getMonth(),today.getDate(),10,15).toISOString(),category:'Makan & Minum',amount:15000,note:'Kopi Susu'},
+ {id:3,date:new Date(today.getFullYear(),today.getMonth(),today.getDate()-1,19,20).toISOString(),category:'Transportasi',amount:35000,note:'GoFood'},
+ {id:4,date:new Date(today.getFullYear(),today.getMonth(),today.getDate()-2,14,10).toISOString(),category:'Kebutuhan Kos',amount:25000,note:'Laundry'}
+];
+let state;
+try{state=JSON.parse(localStorage.getItem('financialReportIndraHSB')||'null')}catch(e){state=null}
+if(!state||!Array.isArray(state.transactions))state={transactions:initial,budget:2000000,goal:1000000,saved:350000};
+let monthCursor=new Date(today.getFullYear(),today.getMonth(),1),donutChart=null,weeklyChart=null,compareChart=null,sparkCharts=[],selectedDate=null,searchTerm='';
+function save(){localStorage.setItem('financialReportIndraHSB',JSON.stringify(state));render()}
+function currentMonth(t){const d=new Date(t);return d.getMonth()===today.getMonth()&&d.getFullYear()===today.getFullYear()}
+function monthly(){return state.transactions.filter(t=>currentMonth(t.date))}
+function render(){
+ const tx=monthly(),total=tx.reduce((s,t)=>s+Number(t.amount||0),0),remaining=Math.max(0,state.budget-total),pct=state.budget?Math.min(100,total/state.budget*100):0,goalPct=state.goal?Math.min(100,state.saved/state.goal*100):0;
+ $('#spent').textContent=money(total);$('#donutTotal').textContent=money(total);$('#remaining').textContent=money(remaining);$('#budgetLabel').textContent=money(state.budget);$('#budgetProgress').style.width=pct+'%';$('#budgetPct').textContent=pct.toFixed(1)+'%';$('#warningProgress').style.width=pct+'%';$('#warningText').textContent=`Pengeluaran bulan ini sudah mencapai ${pct.toFixed(1)}% dari anggaran!`;
+ $('#goalAmount').textContent=money(state.goal);$('#savedAmount').textContent=money(state.saved);$('#goalProgress').style.width=goalPct+'%';$('#goalPct').textContent=goalPct.toFixed(1)+'%';$('#savingRingPct').textContent=Math.round(goalPct)+'%';$('#savingRing').style.background=`conic-gradient(#14e0be 0 ${goalPct}%,#087cff ${goalPct}% 100%)`;$('#savingLabel').textContent=money(state.saved);$('#savingTargetLabel').textContent=money(state.goal);$('#dailyAvg').textContent=money(total/Math.max(1,today.getDate()));
+ $('#todayLabel').textContent='▦ '+today.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ renderTransactions();
+ renderCharts(tx);renderCalendar();renderCompare();
+}
+function inPeriod(t,period,base=new Date()){
+ const d=new Date(t),b=new Date(base);
+ if(period==='daily')return d.getFullYear()===b.getFullYear()&&d.getMonth()===b.getMonth()&&d.getDate()===b.getDate();
+ if(period==='weekly'){const start=new Date(b);start.setHours(0,0,0,0);start.setDate(start.getDate()-((start.getDay()+6)%7));const end=new Date(start);end.setDate(end.getDate()+7);return d>=start&&d<end;}
+ if(period==='monthly')return d.getFullYear()===b.getFullYear()&&d.getMonth()===b.getMonth();
+ return true;
+}
+function renderTransactions(){
+ const list=$('#transactionList');list.innerHTML='';const period=$('#transactionPeriod')?.value||'all';
+ let rows=[...state.transactions].filter(t=>(period==='all'||inPeriod(t,period))&&(!selectedDate||new Date(t.date).toDateString()===selectedDate.toDateString())&&(!searchTerm||`${t.note} ${t.category}`.toLowerCase().includes(searchTerm)) ).sort((a,b)=>new Date(b.date)-new Date(a.date));
+ rows.forEach(t=>{const row=document.createElement('div');row.className='transaction';const emoji={'Makan & Minum':'🍲','Transportasi':'🚕','Kebutuhan Kos':'🧺','Hiburan':'🎮','Lainnya':'🧾'}[t.category]||'🧾';row.innerHTML=`<div class="food">${emoji}</div><div class="transaction-info"><b></b><small></small></div><span class="tag"></span><span class="amount"></span>`;row.querySelector('b').textContent=t.note||t.category;row.querySelector('small').textContent=new Date(t.date).toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});row.querySelector('.tag').textContent=t.category.split(' ')[0];row.querySelector('.amount').textContent='-'+money(t.amount);list.append(row)});
+ if(!rows.length)list.innerHTML='<div style="color:var(--muted);padding:18px;text-align:center">Tidak ada transaksi untuk filter ini.</div>';
+}
+function periodRange(period,offset){const base=new Date(today);if(period==='daily'){base.setDate(base.getDate()-offset);base.setHours(0,0,0,0);const end=new Date(base);end.setDate(end.getDate()+1);return {start:base,end,label:base.toLocaleDateString('id-ID',{day:'2-digit',month:'short'})};}if(period==='weekly'){const start=new Date(base);start.setDate(start.getDate()-((start.getDay()+6)%7)-7*offset);start.setHours(0,0,0,0);const end=new Date(start);end.setDate(end.getDate()+7);return {start,end,label:`${start.toLocaleDateString('id-ID',{day:'2-digit',month:'short'})} - ${new Date(end-1).toLocaleDateString('id-ID',{day:'2-digit',month:'short'})}`};}const start=new Date(base.getFullYear(),base.getMonth()-offset,1),end=new Date(base.getFullYear(),base.getMonth()-offset+1,1);return {start,end,label:start.toLocaleDateString('id-ID',{month:'short',year:'numeric'})};}
+function sumRange(range){return state.transactions.filter(t=>{const d=new Date(t.date);return d>=range.start&&d<range.end}).reduce((s,t)=>s+Number(t.amount||0),0)}
+function renderCompare(){const period=$('#compareTabs .active')?.dataset.period||'daily',r1=periodRange(period,1),r2=periodRange(period,2),v1=sumRange(r1),v2=sumRange(r2);const title=period==='daily'?'Day':period==='weekly'?'Weekly':'Monthly';if(compareChart)compareChart.destroy();compareChart=new Chart($('#compareChart'),{type:'bar',data:{labels:[`${title} -1 (${r1.label})`,`${title} -2 (${r2.label})`],datasets:[{label:'Total Pengeluaran',data:[v1,v2],backgroundColor:['#13e6d0','#268cff'],borderRadius:9,maxBarThickness:90}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>money(c.raw)}}},scales:{x:{grid:{display:false},ticks:{color:'#dce8ff'}},y:{beginAtZero:true,grid:{color:'#263b5b'},ticks:{color:'#dce8ff',callback:v=>v>=1000000?(v/1000000).toFixed(1)+'jt':v>=1000?(v/1000).toFixed(0)+'k':v}}}}});}
+function renderCharts(tx){
+ const sums=categories.map(c=>tx.filter(t=>t.category===c).reduce((s,t)=>s+Number(t.amount||0),0));
+ if(donutChart)donutChart.destroy();
+ const donutData=sums.some(Boolean)?sums:[36,20,18,14,12];
+ donutChart=new Chart($('#donutChart'),{type:'doughnut',data:{labels:categories,datasets:[{data:donutData,backgroundColor:colors,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',animation:false,plugins:{legend:{display:false},tooltip:{enabled:true}}}});
+ const denominator=sums.reduce((a,b)=>a+b,0);
+ $('#legend').innerHTML=categories.map((c,i)=>`<div><i class="dot" style="background:${colors[i]}"></i>${c}<b>${denominator?(sums[i]/denominator*100).toFixed(1):[36,20,18,14,12][i]}%</b></div>`).join('');
+ const days=['Sen','Sel','Rab','Kam','Jum','Sab','Min'],vals=days.map((_,i)=>tx.filter(t=>(new Date(t.date).getDay()+6)%7===i).reduce((s,t)=>s+Number(t.amount||0),0));
+ if(weeklyChart)weeklyChart.destroy();
+ weeklyChart=new Chart($('#weeklyChart'),{type:'line',data:{labels:days,datasets:[{data:vals.some(Boolean)?vals:[120000,180000,250000,160000,180000,210000,280000],borderColor:'#10e6bf',backgroundColor:'#00d99a30',fill:true,tension:.4,pointBackgroundColor:'#10e6bf',pointRadius:3,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'#263b5b'},ticks:{color:'#dce8ff',font:{size:10}}},y:{beginAtZero:true,grid:{color:'#263b5b'},ticks:{color:'#dce8ff',font:{size:10},callback:v=>v>=1000?(v/1000)+'k':v}}}}});
+}
+function renderCalendar(){
+ const y=monthCursor.getFullYear(),m=monthCursor.getMonth(),first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+ $('#monthName').textContent=monthCursor.toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+ let html=['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(x=>`<div class="weekday">${x}</div>`).join('');
+ for(let i=0;i<first;i++)html+='<div></div>';
+ for(let d=1;d<=days;d++){const date=new Date(y,m,d),marked=state.transactions.some(t=>new Date(t.date).toDateString()===date.toDateString()),isToday=d===today.getDate()&&m===today.getMonth()&&y===today.getFullYear(),selected=selectedDate&&selectedDate.toDateString()===date.toDateString();html+=`<div role="button" tabindex="0" data-date="${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}" class="${selected?'selected ':''}${isToday?'today':marked?'marked day':'day'}" aria-label="Pilih ${d}">${d}</div>`}
+ $('#calendar').innerHTML=html;$('#calendarFilterNote').textContent=selectedDate?`Menampilkan transaksi tanggal ${selectedDate.toLocaleDateString('id-ID',{dateStyle:'full'})}. Klik tanggal lagi untuk memilih tanggal lain.`:'Klik tanggal untuk melihat transaksi pada tanggal tersebut.';
+}
+$('#calendar').addEventListener('click',e=>{const cell=e.target.closest('[data-date]');if(!cell)return;const [y,m,d]=cell.dataset.date.split('-').map(Number);selectedDate=new Date(y,m-1,d);$('#transactionPeriod').value='all';renderCalendar();renderTransactions();$('#transactionList').scrollIntoView({behavior:'smooth',block:'nearest'});});
+$('#calendar').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.target.click();}});
+$('#transactionForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('#amount').value);if(!Number.isFinite(amount)||amount<=0)return;const chosen=$('#expenseDate').value||new Date().toISOString().slice(0,10);state.transactions.push({id:Date.now(),date:new Date(chosen+'T12:00:00').toISOString(),category:$('#category').value,amount,note:$('#note').value.trim()});selectedDate=null;$('#transactionPeriod').value='all';e.target.reset();$('#receiptName').textContent='';save()});
+$('#expenseDate').value=new Date().toISOString().slice(0,10);
+$('#transactionPeriod').addEventListener('change',()=>{selectedDate=null;renderCalendar();renderTransactions()});
+$('#compareTabs').addEventListener('click',e=>{const b=e.target.closest('button[data-period]');if(!b)return;$('#compareTabs').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));renderCompare()});
+$('#receipt').addEventListener('change',e=>$('#receiptName').textContent=e.target.files[0]?.name||'');
+$('#prevMonth').onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
+$('#nextMonth').onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
+function editGoal(){const g=prompt('Masukkan target tabungan (Rp):',state.goal);if(g!==null&&Number(g)>0)state.goal=Number(g);const s=prompt('Jumlah tabungan terkumpul (Rp):',state.saved);if(s!==null&&Number(s)>=0)state.saved=Number(s);save()}
+$('#editGoal').onclick=editGoal;
+function download(name,data,type){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([data],{type}));a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function backup(){download('backup-financial-report-indra-hsb.json',JSON.stringify(state,null,2),'application/json')}
+function exportCSV(){const rows=[['Tanggal','Kategori','Keterangan','Jumlah'],...state.transactions.map(t=>[new Date(t.date).toLocaleString('id-ID'),t.category,t.note,t.amount])];download('financial-report-indra-hsb.csv','\ufeff'+rows.map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(';')).join('\n'),'text/csv;charset=utf-8')}
+$('#backupBtn').onclick=$('#backupNav').onclick=backup;
+$('#csvBtn').onclick=$('#exportNav').onclick=exportCSV;
+$('#restoreBtn').onclick=()=>$('#restoreFile').click();
+$('#restoreFile').onchange=async e=>{try{const d=JSON.parse(await e.target.files[0].text());if(!Array.isArray(d.transactions))throw Error('invalid');state=d;save();alert('Data berhasil dipulihkan.')}catch(err){alert('File backup tidak valid.')}e.target.value=''};
+$('#printBtn').onclick=()=>window.print();
+$('#themeToggle').onchange=e=>document.body.classList.toggle('light',!e.target.checked);
+$('#themeQuick').onclick=()=>{$('#themeToggle').checked=!$('#themeToggle').checked;$('#themeToggle').dispatchEvent(new Event('change'))};
+$('#search').oninput=e=>{searchTerm=e.target.value.toLowerCase().trim();renderTransactions()};
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#search').focus()}});
+$('#allTransactions').onclick=e=>{e.preventDefault();$('#search').value='';searchTerm='';selectedDate=null;$('#transactionPeriod').value='all';renderCalendar();renderTransactions()};
+$$('.nav button[data-view]').forEach(b=>b.onclick=()=>{$$('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.view;if(v==='target')editGoal();else if(v==='transactions')$('#search').focus();else if(v==='calendar')$('#calendar').scrollIntoView({behavior:'smooth'});else if(v==='analysis')$('#donutChart').scrollIntoView({behavior:'smooth'});else if(v==='settings')alert('Mode tampilan dapat diubah melalui tombol Dark Mode. Anggaran dan target dapat diatur pada dashboard.')});
+function makeSpark(id,data){const canvas=$(id);const ctx=canvas.getContext('2d');new Chart(ctx,{type:'line',data:{labels:data.map((_,i)=>i),datasets:[{data,borderColor:'#10e6bf',borderWidth:2,pointRadius:0,tension:.4,fill:true,backgroundColor:'#00d99a22'}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}})}
+render();makeSpark('#spark1',[2,8,5,13,9,15,11,14,10,18,15,22]);makeSpark('#spark2',[4,8,6,12,9,15,11,17,13,18,16,23]);
+</script>
+</body>
+</html>
