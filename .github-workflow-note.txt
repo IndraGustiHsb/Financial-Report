@@ -1,0 +1,1 @@
+Untuk GitHub Pages + Vite, set `base` pada vite.config.js sesuai nama repository, lalu gunakan GitHub Actions untuk menjalankan `npm ci`, `npm run build`, dan upload folder `dist` sebagai artifact Pages. Untuk tahap pertama, uji lokal dan Firebase dahulu.
