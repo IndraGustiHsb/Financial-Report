@@ -293,7 +293,7 @@ header{padding:10px}
 
       <div class="card">
         <div class="stat">
-          <div class="e">💸</div>
+          <div class="e">💵</div>
           <div>
             <small>Tabungan Bulanan</small>
             <b id="monthlySavings">Rp0</b>
@@ -476,7 +476,7 @@ header{padding:10px}
   <!-- TABUNGAN BULANAN -->
   <section class="view" id="view-savings">
     <div class="title">
-      <h1>💸 Tabungan Bulanan</h1>
+      <h1>💵 Tabungan Bulanan</h1>
       <span></span>
       <div class="date" id="savingsMonthLabel"></div>
     </div>
@@ -1155,7 +1155,7 @@ function renderDashboard() {
 
   $("recentList").innerHTML = recent.map(t =>
     `<div class="tx">
-      <div class="th">${CATS[categoryIndex(t)]?.e||"💸"}</div>
+      <div class="th">${CATS[categoryIndex(t)]?.e||"💵"}</div>
       <div class="desc">
         <b>${safe(t.description)}</b>
         <small>${safe(t.date)} · ${safe(CATS[categoryIndex(t)]?.t||"Lainnya")}</small>
@@ -1543,7 +1543,7 @@ function renderCalendar() {
 
   const dayHtml=dayItems.map(t=>
     `<div class="tx">
-      <div class="th">${CATS[categoryIndex(t)]?.e||"💸"}</div>
+      <div class="th">${CATS[categoryIndex(t)]?.e||"💵"}</div>
       <div class="desc">
         <b>${safe(t.description)}</b>
         <small>${safe(catName(categoryIndex(t)))}</small>
