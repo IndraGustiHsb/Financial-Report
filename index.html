@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#050a1c"><title>Financial Report</title>
+<meta name="theme-color" content="#050a1c"><meta name="application-name" content="Financial Report"><meta name="description" content="Kelola anggaran, transaksi, tabungan, dan laporan keuangan pribadi dalam satu dashboard."><link rel="icon" type="image/svg+xml" href="./assets/financial-report-logo.svg"><title>Financial Report</title>
 <style>
 :root{--bg:#050a1c;--side:#08102a;--card:#0b1433;--bd:#1c2a5a;--tx:#e8ecff;--mut:#9aa6d0;--pri:#2f7bff;--grn:#19e08a;--red:#ff5470;--orange:#f5902e}
 body.light{--bg:#eef2fb;--side:#fff;--card:#fff;--bd:#d6ddf0;--tx:#16204a;--mut:#5b668f}
 *{box-sizing:border-box;margin:0}
 body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--tx);display:flex;min-height:100vh;font-size:14px}
 aside{width:260px;background:var(--side);border-right:1px solid var(--bd);padding:18px 14px;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
-.brand{display:flex;gap:10px;align-items:center;font-weight:700;margin-bottom:10px}.brand small{display:block;font-weight:400;color:var(--mut)}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700;margin-bottom:10px}.brand small{display:block;font-weight:400;color:var(--mut)}.brand-logo{width:42px;height:42px;object-fit:contain;border-radius:11px}
 .logo{width:40px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--grn),var(--pri));display:grid;place-items:center;color:#04132a;font-size:21px}
 .prof{text-align:center;margin:10px 0 16px}.avatar{width:90px;height:90px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(135deg,#f6a35a,#2f7bff 60%,#0b1433);border:2px solid var(--pri);display:grid;place-items:center;font-size:30px;font-weight:700}
 .prof h3{font-size:16px}.prof p{color:var(--mut);font-size:12px;margin-top:6px}
@@ -39,6 +39,11 @@ label{display:block;font-size:13px;margin:10px 0 6px}input,select,textarea{width
 #cloudPanel h3{font-size:14px;margin-bottom:8px}#cloudPanel p{font-size:12px;color:var(--mut);margin:7px 0}#cloudPanel input{margin:5px 0}#cloudPanel button{width:100%;margin-top:6px}.cloud-actions{display:flex;gap:7px}.cloud-actions button{flex:1}
 
 
+/* Neutral public brand and app launch screen */
+#appSplash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#050a1c;color:#e8ecff;transition:opacity .35s ease,visibility .35s ease}
+#appSplash img{width:104px;height:104px;filter:drop-shadow(0 10px 26px #2f7bff55)}
+#appSplash strong{font-size:25px;letter-spacing:.2px}#appSplash span{font-size:13px;color:#9aa6d0}
+#appSplash.hide{opacity:0;visibility:hidden;pointer-events:none}
 /* Financial Report Android — mobile app presentation */
 :root{color-scheme:dark}
 html{min-height:100%;background:var(--bg);-webkit-text-size-adjust:100%;overscroll-behavior-y:contain}
@@ -81,9 +86,9 @@ input,select,textarea{font-size:16px;min-height:44px}
 </style>
 </head>
 <body>
+<div id="appSplash" aria-label="Financial Report" role="status"><img src="./assets/financial-report-logo.svg" alt=""><strong>Financial Report</strong><span>Personal Finance Dashboard</span></div>
 <aside>
-  <div class="brand"><div class="logo">💰</div><div>Financial Report<small>Personal Finance Dashboard</small></div></div>
-  <div class="prof"><div class="avatar" id="av">IG</div><h3 id="sideName">Indra Gusti Hasibuan</h3><p>Manage Your Money,<br>Build a Better Tomorrow</p></div>
+  <div class="brand"><img class="brand-logo" src="./assets/financial-report-logo.svg" alt="Financial Report"><div>Financial Report<small>Personal Finance Dashboard</small></div></div>
   <nav id="nav">
     <a class="on" data-view="dashboard"><i>🏠</i>Dashboard</a>
     <a data-view="transactions"><i>🧾</i>Transaksi</a>
@@ -195,7 +200,7 @@ input,select,textarea{font-size:16px;min-height:44px}
 </section>
 <script>
 "use strict";
-const DEFAULTS={user:"Indra Gusti Hasibuan",budget:2000000,goal:1000000,saved:350000,allocationsByMonth:{},closedBooks:{}};
+const DEFAULTS={user:"Pengguna",budget:2000000,goal:1000000,saved:350000,allocationsByMonth:{},closedBooks:{}};
 const CATS=[{n:"Makan & Minum",t:"Makan",c:"#19e08a",e:"🍜"},{n:"Transportasi",t:"Transport",c:"#2f8bff",e:"🚌"},{n:"Kebutuhan Kos",t:"Kos",c:"#f5a623",e:"🏠"},{n:"Hiburan",t:"Hiburan",c:"#a366ff",e:"🎮"},{n:"Lainnya",t:"Lainnya",c:"#ff5fb0",e:"📦"}];
 const $=id=>document.getElementById(id), rp=n=>"Rp"+Math.round(Number(n)||0).toLocaleString("id-ID"), pad=n=>String(n).padStart(2,"0"), iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const today=new Date();
@@ -433,7 +438,7 @@ $("backupBtn").onclick=$("backupBtn2").onclick=backup;$("restoreBtn").onclick=re
 $("csvBtn").onclick=$("navExport").onclick=e=>{if(e)e.preventDefault();exportCSV()};$("pdfBtn").onclick=()=>window.print();
 $("q").oninput=()=>{const v=$("q").value;setView("transactions");$("txSearch").value=v;renderTransactions()};
 addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("q").focus()}});
-function renderAll(){ $("sideName").textContent=state.user;$("welcomeName").textContent=state.user.split(" ")[0];$("av").textContent=state.user.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();$("today").textContent="📅 "+today.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});renderDashboard();renderSettings();renderSavings();renderTransactions();renderAnalysis()}
+function renderAll(){ $("welcomeName").textContent=state.user.split(" ")[0];$("av").textContent=state.user.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();$("today").textContent="📅 "+today.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});renderDashboard();renderSettings();renderSavings();renderTransactions();renderAnalysis()}
 populateCats();$("txDate").value=iso(today);renderAll();
 // Bridge untuk modul Firebase: state yang sama dipakai web dan aplikasi Android.
 window.dashboardGetState=()=>({...state,transactions:tx});
@@ -446,6 +451,9 @@ window.dashboardApplyCloudState=(cloud)=>{
   localStorage.setItem("fin-state-v2",JSON.stringify(state));
   renderAll();
 };
+const appSplash=document.getElementById("appSplash");
+window.addEventListener("load",()=>setTimeout(()=>appSplash?.classList.add("hide"),650),{once:true});
+setTimeout(()=>appSplash?.classList.add("hide"),3500);
 </script>
 <script type="module" src="./firebase-sync.js"></script>
 </body>
