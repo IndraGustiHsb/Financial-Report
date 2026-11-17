@@ -36,6 +36,8 @@ label{display:block;font-size:13px;margin:10px 0 6px}input,select,textarea{width
 @media(max-width:800px){body{display:block}aside{width:auto;display:block;padding:10px}aside .prof,aside .quote,aside .dm,aside>div:last-child{display:none}nav{display:flex;overflow:auto;gap:5px}nav a{white-space:nowrap;padding:9px}.brand{margin:0 0 9px}.g4,.g3{grid-template-columns:1fr}.g3>div:last-child{grid-column:auto}header{padding:10px}.wrap{padding:12px}.title h1{font-size:21px}.formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}}
 
 #cloudPanel{position:fixed;right:16px;bottom:16px;z-index:30;width:min(340px,calc(100vw - 32px));background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:0 12px 36px #0005}
+/* Hide the large sign-in panel without removing its DOM: Firebase auth and background sync remain active. */
+#cloudPanel{display:none!important}
 #cloudPanel h3{font-size:14px;margin-bottom:8px}#cloudPanel p{font-size:12px;color:var(--mut);margin:7px 0}#cloudPanel input{margin:5px 0}#cloudPanel button{width:100%;margin-top:6px}.cloud-actions{display:flex;gap:7px}.cloud-actions button{flex:1}
 
 
