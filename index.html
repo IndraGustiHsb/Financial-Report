@@ -35,10 +35,22 @@ label{display:block;font-size:13px;margin:10px 0 6px}input,select,textarea{width
 @media(max-width:1200px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:1fr 1fr}.g3>div:last-child{grid-column:1/-1}.split{grid-template-columns:1fr}}
 @media(max-width:800px){body{display:block}aside{width:auto;display:block;padding:10px}aside .prof,aside .quote,aside .dm,aside>div:last-child{display:none}nav{display:flex;overflow:auto;gap:5px}nav a{white-space:nowrap;padding:9px}.brand{margin:0 0 9px}.g4,.g3{grid-template-columns:1fr}.g3>div:last-child{grid-column:auto}header{padding:10px}.wrap{padding:12px}.title h1{font-size:21px}.formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}}
 
-#cloudPanel{position:fixed;right:16px;bottom:16px;z-index:30;width:min(340px,calc(100vw - 32px));background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:0 12px 36px #0005}
-/* Hide the large sign-in panel without removing its DOM: Firebase auth and background sync remain active. */
-#cloudPanel,#cloudPanel[hidden]{display:none!important;visibility:hidden!important;pointer-events:none!important}
-#cloudPanel h3{font-size:14px;margin-bottom:8px}#cloudPanel p{font-size:12px;color:var(--mut);margin:7px 0}#cloudPanel input{margin:5px 0}#cloudPanel button{width:100%;margin-top:6px}.cloud-actions{display:flex;gap:7px}.cloud-actions button{flex:1}
+/* Akses akun cloud berada di header; detail hanya muncul saat ikon diklik. */
+#cloudPanel{position:relative;display:block;flex:0 0 auto;width:auto;padding:0;margin:0;border:0;background:transparent;box-shadow:none;z-index:40}
+#cloudToggle{width:38px;height:38px;min-height:38px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);display:grid;place-items:center;position:relative;cursor:pointer;font-size:18px}
+#cloudIndicator{position:absolute;width:8px;height:8px;border-radius:50%;right:5px;top:5px;background:#8992aa;border:1px solid var(--bg)}
+#cloudToggle.connected #cloudIndicator{background:var(--grn)}
+#cloudMenu{position:absolute;right:0;top:46px;width:min(310px,calc(100vw - 24px));padding:14px;background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 36px #0008}
+#cloudMenu[hidden],#loginPanel[hidden],#accountPanel[hidden]{display:none!important}
+#cloudMenu h3{font-size:14px;margin-bottom:8px}
+#cloudMenu p{font-size:12px;color:var(--mut);margin:7px 0}
+#cloudMenu input{margin:5px 0}
+#cloudMenu button{width:100%;margin-top:6px}
+.cloud-actions{display:flex;gap:7px}
+.cloud-actions button{flex:1}
+#cloudMenu #accountPanel p{overflow-wrap:anywhere}
+#cloudMenu #logoutBtn{margin-top:8px}
+@media(max-width:600px){#cloudMenu{right:-48px;width:min(300px,calc(100vw - 20px))}}
 
 
 /* Neutral public brand and app launch screen */
@@ -106,7 +118,7 @@ input,select,textarea{font-size:16px;min-height:44px}
   <div style="text-align:center;color:var(--mut);font-size:12px">v2.0.0</div>
 </aside>
 <main>
-<header><input class="search" id="q" placeholder="Cari transaksi... (Ctrl + K)"><div class="ic" title="Notifikasi">🔔</div><div class="ic" title="Pengaturan" id="quickSettings" style="cursor:pointer">⚙️</div></header>
+<header><input class="search" id="q" placeholder="Cari transaksi... (Ctrl + K)"><div class="ic" title="Notifikasi">🔔</div><div class="ic" title="Pengaturan" id="quickSettings" style="cursor:pointer">⚙️</div><section id="cloudPanel" aria-label="Akun dan sinkronisasi"><button id="cloudToggle" type="button" aria-label="Akun dan sinkronisasi" aria-expanded="false" aria-controls="cloudMenu" title="Akun dan sinkronisasi">☁️<span id="cloudIndicator"></span></button><div id="cloudMenu" hidden><h3>☁️ Akun &amp; Sinkronisasi</h3><div id="loginPanel"><p>Login atau daftar untuk menyinkronkan data Android dan website.</p><input id="email" type="email" placeholder="Email" autocomplete="email"><input id="password" type="password" placeholder="Password (minimal 6 karakter)" autocomplete="current-password"><div class="cloud-actions"><button class="btn" id="loginBtn">Login</button><button class="btn secondary" id="registerBtn">Daftar</button></div></div><div id="accountPanel" hidden><p>Login sebagai <b id="accountEmail"></b></p><button class="btn secondary" id="logoutBtn">Keluar</button></div><p id="cloudStatus" role="status">Menyiapkan sinkronisasi...</p></div></section></header>
 <div class="wrap">
   <section class="view active" id="view-dashboard">
     <div class="title"><h1>📊 Dashboard</h1><div>Selamat datang kembali, <b id="welcomeName">Indra</b>! 👋</div><span></span><div class="date" id="today"></div></div>
@@ -186,25 +198,15 @@ input,select,textarea{font-size:16px;min-height:44px}
 </div>
 </main>
 <div class="toast" id="toast"></div>
-<section id="cloudPanel" aria-label="Sinkronisasi cloud" hidden style="display:none!important">
-  <h3>☁️ Sinkronisasi Akun Pribadi</h3>
-  <div id="loginPanel">
-    <p>Daftar atau login untuk menyinkronkan data Android dan website.</p>
-    <input id="email" type="email" placeholder="Email" autocomplete="email">
-    <input id="password" type="password" placeholder="Password (minimal 6 karakter)" autocomplete="current-password">
-    <div class="cloud-actions"><button class="btn" id="loginBtn">Login</button><button class="btn secondary" id="registerBtn">Daftar</button></div>
-  </div>
-  <div id="accountPanel" hidden>
-    <p>Login sebagai <b id="accountEmail"></b></p>
-    <button class="btn secondary" id="logoutBtn">Keluar</button>
-  </div>
-  <p id="cloudStatus" role="status">Menyiapkan sinkronisasi...</p>
-</section>
 <script>
 "use strict";
 const DEFAULTS={user:"Pengguna",budget:2000000,goal:1000000,saved:350000,allocationsByMonth:{},closedBooks:{}};
 const CATS=[{n:"Makan & Minum",t:"Makan",c:"#19e08a",e:"🍜"},{n:"Transportasi",t:"Transport",c:"#2f8bff",e:"🚌"},{n:"Kebutuhan Kos",t:"Kos",c:"#f5a623",e:"🏠"},{n:"Hiburan",t:"Hiburan",c:"#a366ff",e:"🎮"},{n:"Lainnya",t:"Lainnya",c:"#ff5fb0",e:"📦"}];
-const $=id=>document.getElementById(id), rp=n=>"Rp"+Math.round(Number(n)||0).toLocaleString("id-ID"), pad=n=>String(n).padStart(2,"0"), iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const $=id=>document.getElementById(id);
+const cloudToggle=$("cloudToggle"),cloudMenu=$("cloudMenu");
+cloudToggle?.addEventListener("click",()=>{const open=cloudMenu.hidden;cloudMenu.hidden=!open;cloudToggle.setAttribute("aria-expanded",String(open));});
+document.addEventListener("click",e=>{if(cloudMenu&&!cloudMenu.hidden&&!e.target.closest("#cloudPanel")){cloudMenu.hidden=true;cloudToggle?.setAttribute("aria-expanded","false")}});
+const rp=n=>"Rp"+Math.round(Number(n)||0).toLocaleString("id-ID"), pad=n=>String(n).padStart(2,"0"), iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const today=new Date();
 function load(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v??fallback}catch{return fallback}}
 let state=load("fin-state-v2",{...DEFAULTS,transactions:[]});

@@ -44,6 +44,7 @@ if (!ready) {
     if (stopCloud) { stopCloud(); stopCloud = null; }
     $("loginPanel").hidden = !!user;
     $("accountPanel").hidden = !user;
+    $("cloudToggle")?.classList.toggle("connected", !!user);
     if (!user) { status("Belum login · data hanya di perangkat ini"); return; }
     $("accountEmail").textContent = user.email || "Akun pribadi";
     status("Menghubungkan database...");
