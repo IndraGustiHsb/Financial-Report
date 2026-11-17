@@ -1,6 +1,6 @@
 {
   "appId": "com.indra.financialreport",
-  "appName": "Financial Report",
+  "appName": "Financial Report INDRA Gusti HSB",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": { "androidScheme": "https" },
