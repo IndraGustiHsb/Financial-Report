@@ -36,9 +36,18 @@ label{display:block;font-size:13px;margin:10px 0 6px}input,select,textarea{width
 @media(max-width:800px){body{display:block}aside{width:auto;display:block;padding:10px}aside .prof,aside .quote,aside .dm,aside>div:last-child{display:none}nav{display:flex;overflow:auto;gap:5px}nav a{white-space:nowrap;padding:9px}.brand{margin:0 0 9px}.g4,.g3{grid-template-columns:1fr}.g3>div:last-child{grid-column:auto}header{padding:10px}.wrap{padding:12px}.title h1{font-size:21px}.formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}}
 
 #cloudPanel{position:fixed;right:16px;bottom:16px;z-index:30;width:min(340px,calc(100vw - 32px));background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:0 12px 36px #0005}
-/* Hide the large sign-in panel without removing its DOM: Firebase auth and background sync remain active. */
-#cloudPanel,#cloudPanel[hidden]{display:none!important;visibility:hidden!important;pointer-events:none!important}
-#cloudPanel h3{font-size:14px;margin-bottom:8px}#cloudPanel p{font-size:12px;color:var(--mut);margin:7px 0}#cloudPanel input{margin:5px 0}#cloudPanel button{width:100%;margin-top:6px}.cloud-actions{display:flex;gap:7px}.cloud-actions button{flex:1}
+/* Saat sudah login, tampilkan status cloud sebagai label mungil di pojok atas. */
+#cloudPanel:has(#accountPanel:not([hidden])){top:8px;right:12px;bottom:auto;width:auto;max-width:calc(100vw - 24px);display:flex;align-items:center;gap:8px;padding:5px 9px;background:rgba(8,14,35,.88);border:1px solid var(--bd);border-radius:999px;box-shadow:none}
+#cloudPanel h3{font-size:14px;margin-bottom:8px}
+#cloudPanel:has(#accountPanel:not([hidden])) h3{display:none}
+#cloudPanel p{font-size:12px;color:var(--mut);margin:7px 0}
+#cloudPanel:has(#accountPanel:not([hidden])) #accountPanel{display:flex;align-items:center;gap:8px;min-width:0}
+#cloudPanel:has(#accountPanel:not([hidden])) #accountPanel p{font-size:10px;margin:0;white-space:nowrap}
+#cloudPanel:has(#accountPanel:not([hidden])) #accountEmail{overflow:hidden;text-overflow:ellipsis;max-width:150px}
+#cloudPanel:has(#accountPanel:not([hidden])) #cloudStatus{font-size:10px;margin:0;white-space:nowrap}
+#cloudPanel input{margin:5px 0}#cloudPanel button{width:100%;margin-top:6px}.cloud-actions{display:flex;gap:7px}.cloud-actions button{flex:1}
+#cloudPanel:has(#accountPanel:not([hidden])) #logoutBtn{width:auto;margin:0;padding:2px 6px;font-size:10px;line-height:1.2;white-space:nowrap}
+@media(max-width:600px){#cloudPanel:has(#accountPanel:not([hidden])){top:6px;right:8px;max-width:calc(100vw - 16px);gap:5px;padding:4px 7px}#cloudPanel:has(#accountPanel:not([hidden])) #accountEmail{max-width:105px}#cloudPanel:has(#accountPanel:not([hidden])) #cloudStatus{font-size:9px}}
 
 
 /* Neutral public brand and app launch screen */
@@ -186,7 +195,7 @@ input,select,textarea{font-size:16px;min-height:44px}
 </div>
 </main>
 <div class="toast" id="toast"></div>
-<section id="cloudPanel" aria-label="Sinkronisasi cloud" hidden style="display:none!important">
+<section id="cloudPanel" aria-label="Sinkronisasi cloud">
   <h3>☁️ Sinkronisasi Akun Pribadi</h3>
   <div id="loginPanel">
     <p>Daftar atau login untuk menyinkronkan data Android dan website.</p>
