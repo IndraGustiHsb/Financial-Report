@@ -438,7 +438,7 @@ $("backupBtn").onclick=$("backupBtn2").onclick=backup;$("restoreBtn").onclick=re
 $("csvBtn").onclick=$("navExport").onclick=e=>{if(e)e.preventDefault();exportCSV()};$("pdfBtn").onclick=()=>window.print();
 $("q").oninput=()=>{const v=$("q").value;setView("transactions");$("txSearch").value=v;renderTransactions()};
 addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("q").focus()}});
-function renderAll(){ $("welcomeName").textContent=state.user.split(" ")[0];$("av").textContent=state.user.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();$("today").textContent="📅 "+today.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});renderDashboard();renderSettings();renderSavings();renderTransactions();renderAnalysis()}
+function renderAll(){ $("welcomeName").textContent=state.user.split(" ")[0];$("today").textContent="📅 "+today.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});renderDashboard();renderSettings();renderSavings();renderTransactions();renderAnalysis()}
 populateCats();$("txDate").value=iso(today);renderAll();
 // Bridge untuk modul Firebase: state yang sama dipakai web dan aplikasi Android.
 window.dashboardGetState=()=>({...state,transactions:tx});
