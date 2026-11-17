@@ -1,10 +1,11 @@
-// GANTI nilai di bawah dengan konfigurasi Web App dari Firebase Console.
-// Firebase Console > Project settings > Your apps > SDK setup and configuration.
+// Konfigurasi Firebase Web App: Financial Report Web
+// Project ID: financial-report-indra
+// API key ini adalah identifier aplikasi klien; batasi penggunaan melalui Firebase/GCP API restrictions.
 export const firebaseConfig = {
-  apiKey: "GANTI_API_KEY",
-  authDomain: "GANTI_PROJECT_ID.firebaseapp.com",
-  projectId: "GANTI_PROJECT_ID",
-  storageBucket: "GANTI_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "GANTI_MESSAGING_SENDER_ID",
-  appId: "GANTI_APP_ID"
+  apiKey: "AIzaSyC7NcNIrxGej_nda_LjdzTeg82wnisL2b4",
+  authDomain: "financial-report-indra.firebaseapp.com",
+  projectId: "financial-report-indra",
+  storageBucket: "financial-report-indra.firebasestorage.app",
+  messagingSenderId: "1011782438919",
+  appId: "1:1011782438919:web:a5544436e4d1d06c8bdaa2"
 };

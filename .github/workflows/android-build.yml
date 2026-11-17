@@ -1,6 +1,9 @@
 name: Build Financial Report Android APK
+
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
     paths:
@@ -9,8 +12,10 @@ on:
       - 'package*.json'
       - 'capacitor.config.json'
       - '.github/workflows/android-build.yml'
+
 permissions:
   contents: read
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -30,7 +35,7 @@ jobs:
         run: npm install
       - name: Build web app
         run: npm run build
-      - name: Generate Android wrapper
+      - name: Generate Android project
         run: npx cap add android
       - name: Sync Capacitor plugins and assets
         run: npx cap sync android

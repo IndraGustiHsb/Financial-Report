@@ -1,35 +1,55 @@
-# Financial Report — Android + Website
+# Financial Report — Website + Android
 
-Paket Android berbasis Capacitor dari dashboard Financial Report. Fitur dashboard dan aturan Tutup Buku Bulanan + Carry Forward tetap menggunakan implementasi HTML yang disertakan. Tampilan mobile memakai navigasi bawah, safe-area Android, ukuran kontrol sentuh yang lebih nyaman, dan layout responsif.
+Aplikasi Android menggunakan Capacitor dan dashboard web yang sama. Website yang sudah ada tidak diganti; perubahan Android dan konfigurasi ini dibuat pada branch perbaikan terpisah.
 
-## Isi paket
-- `index.html` — dashboard lengkap termasuk tutup buku dan carry forward.
-- `firebase-sync.js` dan `firebase-config.js` — login dan sinkronisasi Firestore.
-- `firestore.rules` — aturan akses privat per akun.
-- `capacitor.config.json` — identitas aplikasi Android.
-- `.github/workflows/android-build.yml` — build APK otomatis melalui GitHub Actions.
+## Firebase yang digunakan
 
-## 1. Konfigurasi Firebase (agar web dan Android sinkron)
-1. Buka Firebase Console → Project settings → Your apps → Web app.
-2. Salin konfigurasi Web App.
-3. Isi nilai pada `firebase-config.js` (apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId). Ganti semua nilai `GANTI_...`.
-4. Aktifkan Authentication → Email/Password.
-5. Buat Firestore Database dan terapkan `firestore.rules`.
-6. Gunakan akun email yang sama di website dan Android.
+Project: `financial-report-indra`  
+Web App: `Financial Report Web`  
+Authentication: Email/Password  
+Database: Cloud Firestore
 
-Tanpa konfigurasi Firebase, dashboard tetap bisa digunakan secara lokal pada perangkat, tetapi data tidak otomatis tersinkron antar perangkat.
+Konfigurasi Web App sudah diisi di `firebase-config.js` berdasarkan Firebase Console yang diberikan pemilik project. Jangan menambahkan service-account key atau Firebase Admin credentials ke repository.
 
-## 2. Build APK otomatis tanpa Android Studio di PC
-1. Buat/siapkan repository GitHub milikmu.
-2. Ekstrak ZIP ini dan upload seluruh isi folder ke root repository (termasuk folder `.github`).
-3. Upload seluruh file proyek. Workflow akan menjalankan `npm install` secara otomatis.
-4. Push/commit ke branch `main`.
-5. GitHub → tab Actions → pilih **Build Financial Report Android APK** → **Run workflow**.
-6. Setelah selesai, buka hasil workflow dan unduh artifact `Financial-Report-Android-APK`.
-7. Ekstrak artifact, lalu instal `app-debug.apk` di Android. Jika diminta, izinkan instalasi dari sumber tersebut.
+Data cloud disimpan per akun pada dokumen:
 
-## 3. Build lokal (opsional)
-Memerlukan Node.js LTS, Java 17, Android SDK dan Android Studio:
+```
+users/{uid}/private/finance
+```
+
+Website dan Android harus login menggunakan akun Firebase yang sama agar membaca dokumen yang sama. Setiap perubahan dashboard memicu penyimpanan cloud; listener Firestore menerapkan perubahan cloud ke dashboard lokal.
+
+## Aturan Firestore
+
+Pastikan Firestore Rules membatasi setiap akun ke UID-nya sendiri. Aturan yang sesuai untuk struktur saat ini:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/private/{document=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+  }
+}
+```
+
+Jangan menghapus atau mengubah dokumen pengguna yang sudah ada. Uji pertama kali menggunakan akun percobaan atau backup data terlebih dahulu.
+
+## Build APK melalui GitHub Actions
+
+1. Buka repository → tab **Actions**.
+2. Pilih **Build Financial Report Android APK**.
+3. Klik **Run workflow** pada branch ini atau branch utama setelah perubahan digabung.
+4. Tunggu proses selesai, buka workflow run, lalu unduh artifact **Financial-Report-Android-APK**.
+5. Ekstrak artifact dan instal `app-debug.apk` di perangkat Android.
+
+Workflow membangun APK debug untuk pengujian. Distribusi Play Store membutuhkan signing release terpisah.
+
+## Build lokal
+
+Memerlukan Node.js, Java 17, Android SDK, dan Android Studio:
 
 ```bash
 npm install
@@ -39,10 +59,9 @@ npx cap sync android
 npx cap open android
 ```
 
-Di Android Studio pilih Build → Build Bundle(s) / APK(s) → Build APK(s).
+## Catatan
 
-## Catatan penting
-- APK debug ditujukan untuk uji pribadi. Distribusi Play Store memerlukan signing release dan proses publikasi tersendiri.
-- Build APK tidak berarti aplikasi sudah tersambung ke Firebase. Konfigurasi Firebase harus diisi terlebih dahulu.
-- Tutup buku adalah tindakan final untuk periode yang dipilih. Pastikan semua transaksi bulan itu sudah benar sebelum menutup buku.
-- Sebelum mengganti dashboard yang sudah dipakai, backup data dan uji di akun/perangkat percobaan terlebih dahulu.
+- Application ID tetap `com.indra.financialreport` agar identitas paket Android tidak berubah; nama yang tampil adalah **Financial Report INDRA Gusti HSB**.
+- Firebase Web API key adalah identifier aplikasi klien, bukan service-account secret. Terapkan pembatasan API key yang sesuai di Google Cloud.
+- APK memerlukan koneksi internet untuk sinkronisasi Firestore.
+- Perubahan ini belum mengganti website aktif; tinjau Pull Request sebelum merge.
