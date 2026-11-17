@@ -1,11 +1,20 @@
 {
   "appId": "com.indra.financialreport",
-  "appName": "Financial Report INDRA Gusti HSB",
+  "appName": "Financial Report",
   "webDir": "dist",
   "bundledWebRuntime": false,
-  "server": { "androidScheme": "https" },
+  "server": {
+    "androidScheme": "https"
+  },
   "plugins": {
-    "StatusBar": { "style": "DARK", "backgroundColor": "#050a1c" },
-    "SplashScreen": { "launchShowDuration": 1200, "backgroundColor": "#050a1c", "showSpinner": false }
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#050a1c"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "backgroundColor": "#050a1c",
+      "showSpinner": false
+    }
   }
 }
