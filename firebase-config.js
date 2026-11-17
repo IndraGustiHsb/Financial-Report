@@ -2,7 +2,7 @@
 // Project ID: financial-report-indra
 // API key ini adalah identifier aplikasi klien; batasi penggunaan melalui Firebase/GCP API restrictions.
 export const firebaseConfig = {
-  apiKey: "AIzaSyC7NcNIrxGej_nda_LjdzTeg82wnisL2b4",
+  apiKey: "AIzaSyDn787Wvwk0RqtMTy7DePfWjAqhJ6s0SQM",
   authDomain: "financial-report-indra.firebaseapp.com",
   projectId: "financial-report-indra",
   storageBucket: "financial-report-indra.firebasestorage.app",
