@@ -37,7 +37,7 @@ label{display:block;font-size:13px;margin:10px 0 6px}input,select,textarea{width
 
 #cloudPanel{position:fixed;right:16px;bottom:16px;z-index:30;width:min(340px,calc(100vw - 32px));background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:0 12px 36px #0005}
 /* Hide the large sign-in panel without removing its DOM: Firebase auth and background sync remain active. */
-#cloudPanel{display:none!important}
+#cloudPanel,#cloudPanel[hidden]{display:none!important;visibility:hidden!important;pointer-events:none!important}
 #cloudPanel h3{font-size:14px;margin-bottom:8px}#cloudPanel p{font-size:12px;color:var(--mut);margin:7px 0}#cloudPanel input{margin:5px 0}#cloudPanel button{width:100%;margin-top:6px}.cloud-actions{display:flex;gap:7px}.cloud-actions button{flex:1}
 
 
@@ -186,7 +186,7 @@ input,select,textarea{font-size:16px;min-height:44px}
 </div>
 </main>
 <div class="toast" id="toast"></div>
-<section id="cloudPanel" aria-label="Sinkronisasi cloud">
+<section id="cloudPanel" aria-label="Sinkronisasi cloud" hidden style="display:none!important">
   <h3>☁️ Sinkronisasi Akun Pribadi</h3>
   <div id="loginPanel">
     <p>Daftar atau login untuk menyinkronkan data Android dan website.</p>
